@@ -475,21 +475,21 @@ export function determineResult(answers: Record<string, string>): { primary: Son
   const ultimate = checkUltimateHidden(answers, scores);
   if (ultimate) {
     const primary = ultimate;
-    const secondaries = sorted.slice(1, 4).map(([id]) => songMap.get(id)!).filter(Boolean);
+    const secondaries = sorted.slice(1, 3).map(([id]) => songMap.get(id)!).filter(Boolean);
     return { primary, secondaries };
   }
 
   const angel = checkAngelHidden(answers, scores);
   if (angel) {
     const primary = angel;
-    const secondaries = sorted.slice(1, 4).map(([id]) => songMap.get(id)!).filter(Boolean);
+    const secondaries = sorted.slice(1, 3).map(([id]) => songMap.get(id)!).filter(Boolean);
     return { primary, secondaries };
   }
 
   // 普通结果
   const topN = sorted.slice(0, 4);
   const primary = songMap.get(topN[0][0]) || songs[0];
-  const secondaries = topN.slice(1, 4).map(([id]) => songMap.get(id)!).filter(Boolean);
+  const secondaries = topN.slice(1, 3).map(([id]) => songMap.get(id)!).filter(Boolean);
 
   return { primary, secondaries };
 }

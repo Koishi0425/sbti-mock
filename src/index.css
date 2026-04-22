@@ -9,6 +9,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.font-serif-sc {
+  font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

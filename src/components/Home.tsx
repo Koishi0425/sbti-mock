@@ -46,7 +46,7 @@ export default function Home({ onStart }: HomeProps) {
       >
         {/* 标题 */}
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-3 sm:mb-4 tracking-tight leading-tight"
+          className="text-2xl sm:text-3xl font-light text-white/60 mb-2 tracking-widest uppercase"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -54,14 +54,14 @@ export default function Home({ onStart }: HomeProps) {
           Faye TI
         </motion.h1>
 
-        {/* 副标题 */}
+        {/* 主标题 */}
         <motion.p
-          className="text-lg sm:text-xl text-white/80 mb-8 sm:mb-10 leading-relaxed"
+          className="text-2xl sm:text-3xl md:text-4xl font-black font-serif-sc text-white mb-8 sm:mb-10 leading-snug"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          推荐一首王菲的歌
+          🌈 推荐一首王菲的歌 ✨
         </motion.p>
 
         {/* 王菲照片 */}
@@ -74,7 +74,7 @@ export default function Home({ onStart }: HomeProps) {
           <img
             src={homeImage}
             alt="王菲"
-            className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-cover rounded-full shadow-2xl border-4 border-stone-300/40"
+            className="w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 object-cover rounded-full shadow-2xl border-4 border-stone-300/40"
           />
         </motion.div>
 
@@ -82,37 +82,39 @@ export default function Home({ onStart }: HomeProps) {
         {/* 开始按钮 */}
         <motion.button
           onClick={onStart}
-          className="relative px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-amber-100 to-stone-200 text-stone-800 font-bold text-lg sm:text-xl rounded-2xl shadow-lg shadow-stone-700/20 hover:shadow-xl hover:shadow-stone-700/30 transition-all"
+          className="relative px-8 sm:px-12 py-4 sm:py-5 text-stone-800 font-bold text-lg sm:text-xl rounded-2xl"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.7, type: 'spring' }}
+          transition={{ delay: 0.05, type: 'spring' }}
           whileTap={{ scale: 0.95 }}
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.03 }}
         >
-          <span className="flex items-center justify-center gap-2 sm:gap-3">
+          {/* 渐变背景+阴影呼吸 */}
+          <motion.span
+            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-100 to-stone-200"
+            animate={{
+              boxShadow: [
+                '0 8px 30px rgba(251, 191, 36, 0.20), 0 4px 15px rgba(0,0,0,0.15)',
+                '0 8px 50px rgba(251, 191, 36, 0.45), 0 4px 20px rgba(0,0,0,0.25)',
+                '0 8px 30px rgba(251, 191, 36, 0.20), 0 4px 15px rgba(0,0,0,0.15)',
+              ],
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <span className="relative flex items-center justify-center gap-2 sm:gap-3">
             <span className="text-xl sm:text-2xl">🎤</span>
             <span>开始测试</span>
           </span>
-          {/* 呼吸灯效果 */}
-          <motion.div
-            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-100 to-stone-200"
-            animate={{
-              opacity: [0.5, 0.8, 0.5],
-              scale: [1, 1.02, 1],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-            style={{ zIndex: -1 }}
-          />
         </motion.button>
 
-        {/* 底部提示 */}
+        {/* 作者 */}
         <motion.p
-          className="mt-6 sm:mt-8 text-white/50 text-xs sm:text-sm"
+          className="mt-6 sm:mt-8 text-white/40 text-xs sm:text-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          ⏱️ 预计用时 2 分钟
+          Mieule&格拉摩根
         </motion.p>
       </motion.div>
     </div>

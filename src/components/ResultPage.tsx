@@ -34,7 +34,7 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
 
       {/* 歌曲标题 */}
       <motion.h2
-        className={`${isPrimary ? 'text-3xl sm:text-4xl' : 'text-base sm:text-lg'} font-black text-gray-900 mb-2 text-center`}
+        className={`${isPrimary ? 'text-3xl sm:text-4xl' : 'text-base sm:text-lg'} font-black font-serif-sc text-gray-900 mb-2 text-center`}
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.3, type: 'spring' }}
@@ -44,10 +44,10 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
 
       {/* 年份和专辑 */}
       {isPrimary && (
-        <p className="text-sm sm:text-base text-gray-600 mb-3 text-center">
+        <p className="text-xs sm:text-sm text-gray-400 text-center">
           来自{song.year}年，收录于{song.album}
           {song.originalArtist && (
-            <span className="text-gray-500"> (翻自{song.originalArtist})</span>
+            <span className="block text-gray-400"> (翻自{song.originalArtist})</span>
           )}
         </p>
       )}
@@ -55,7 +55,7 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
       {/* 描述 */}
       {isPrimary && (
         <motion.p
-          className="text-gray-700 text-sm sm:text-base leading-relaxed mb-3 text-center"
+          className="text-gray-700 text-sm sm:text-base leading-relaxed mt-3 mb-3 text-center font-serif-sc font-semibold border border-stone-200 rounded-xl px-3 py-2 bg-stone-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
@@ -67,12 +67,12 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
       {/* 歌词 */}
       {isPrimary && (
         <motion.p
-          className="text-base sm:text-lg text-gray-500 italic text-center"
+          className="text-sm sm:text-base text-gray-500 italic text-center font-serif-sc leading-relaxed px-4 py-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          {song.lyrics}
+          <span className="text-gray-300 select-none">『 </span>{song.lyrics}<span className="text-gray-300 select-none"> 』</span>
         </motion.p>
       )}
     </motion.div>
@@ -106,9 +106,9 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
               也可以试试：
             </h2>
             <div className="bg-white/80 backdrop-blur-sm rounded-xl p-3 sm:p-4">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {result.secondaries.map((song) => (
-                  <div key={song.id} className="flex items-center gap-2">
+                  <div key={song.id} className="flex items-center gap-2 bg-white/60 rounded-lg px-3 py-2">
                     {song.albumImage && (
                       <img
                         src={song.albumImage}
@@ -116,9 +116,12 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
                         className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg shadow-sm flex-shrink-0"
                       />
                     )}
-                    <p className="text-xs sm:text-sm font-black text-gray-900 leading-tight">
-                      {song.title.replace(/^《|》$/g, '')}
-                    </p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm font-black text-gray-900 leading-tight truncate">
+                        {song.title.replace(/^《|》$/g, '')}
+                      </p>
+                      <p className="text-xs text-gray-400 leading-tight">{song.year}年</p>
+                    </div>
                   </div>
                 ))}
               </div>
