@@ -5,7 +5,8 @@ import type { Result, Song } from '../data/mock';
 import MusicPlayer from './MusicPlayer';
 
 // GitHub Pages 部署在 sbti-mock 仓库下
-const GITHUB_PAGES_BASE = '/sbti-mock';
+// 开发环境用相对路径，生产环境用 /sbti-mock
+const BASE_URL = import.meta.env.PROD ? '/sbti-mock' : '.';
 
 interface ResultPageProps {
   result: Result;
@@ -32,7 +33,7 @@ function SongCard({ song, isPrimary = false, onPlayClick }: { song: Song; isPrim
           whileTap={{ scale: 0.95 }}
         >
           <img
-            src={`${GITHUB_PAGES_BASE}${song.albumImage}`}
+            src={`${BASE_URL}${song.albumImage}`}
             alt={song.album}
             className={`${isPrimary ? 'w-56 h-56 sm:w-72 sm:h-72' : 'w-14 h-14 sm:w-18 sm:h-18'} object-cover rounded-lg shadow-md`}
           />
@@ -142,7 +143,7 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
                   >
                     {song.albumImage && (
                       <img
-                        src={`${GITHUB_PAGES_BASE}${song.albumImage}`}
+                        src={`${BASE_URL}${song.albumImage}`}
                         alt={song.album}
                         className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg shadow-sm flex-shrink-0"
                       />

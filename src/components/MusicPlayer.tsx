@@ -3,7 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Song } from '../data/mock';
 
-const GITHUB_PAGES_BASE = '/sbti-mock';
+// GitHub Pages 部署在 sbti-mock 仓库下
+// 开发环境用相对路径，生产环境用 /sbti-mock
+const BASE_URL = import.meta.env.PROD ? '/sbti-mock' : '.';
 
 // 歌曲ID到音乐文件的映射
 const songIdToMusic: Record<string, string> = {
@@ -42,10 +44,10 @@ export default function MusicPlayer({ currentSong, onPlaySong }: MusicPlayerProp
   // 获取音乐文件路径
   const getMusicSrc = (song: Song): string | null => {
     if (song.music) {
-      return `${GITHUB_PAGES_BASE}${song.music}`;
+      return `${BASE_URL}${song.music}`;
     }
     const musicPath = songIdToMusic[song.id];
-    return musicPath ? `${GITHUB_PAGES_BASE}${musicPath}` : null;
+    return musicPath ? `${BASE_URL}${musicPath}` : null;
   };
 
   const musicSrc = currentSong ? getMusicSrc(currentSong) : null;
@@ -137,7 +139,7 @@ export default function MusicPlayer({ currentSong, onPlaySong }: MusicPlayerProp
               >
                 {currentSong.albumImage && (
                   <img
-                    src={`${GITHUB_PAGES_BASE}${currentSong.albumImage}`}
+                    src={`${BASE_URL}${currentSong.albumImage}`}
                     alt={currentSong.album}
                     className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg shadow-md"
                   />
