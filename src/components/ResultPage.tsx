@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import type { Result, Song } from '../data/mock';
 import MusicPlayer from './MusicPlayer';
 
-// 获取基础URL，与 vite.config.ts 中的 base 配置保持一致
-const BASE_URL = import.meta.env.DEV ? '' : '/sbti-mock';
+// 资源路径：使用相对路径兼容本地预览和腾讯云部署
+const BASE_URL = '';
 
 interface ResultPageProps {
   result: Result;

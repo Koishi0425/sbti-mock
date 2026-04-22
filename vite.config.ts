@@ -8,8 +8,8 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
-  // GitHub Pages 部署支持
-  // 开发环境: base 为空，使用相对路径
-  // 生产环境: base 为 /sbti-mock/
-  base: process.env.NODE_ENV === 'production' ? '/sbti-mock/' : '',
+  // 部署配置
+  // 本地预览和相对路径部署（腾讯云）: base: './'
+  // GitHub Pages 子路径部署: base: '/sbti-mock/'
+  base: './',
 })
