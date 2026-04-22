@@ -1,6 +1,11 @@
 // src/components/ResultPage.tsx
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { Result, Song } from '../data/mock';
+import MusicPlayer from './MusicPlayer';
+
+// GitHub Pages 部署在 sbti-mock 仓库下
+const GITHUB_PAGES_BASE = '/sbti-mock';
 
 interface ResultPageProps {
   result: Result;
@@ -8,7 +13,7 @@ interface ResultPageProps {
 }
 
 // 歌曲卡片组件
-function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean }) {
+function SongCard({ song, isPrimary = false, onPlayClick }: { song: Song; isPrimary?: boolean; onPlayClick?: () => void }) {
   return (
     <motion.div
       className={`${isPrimary ? 'bg-white rounded-2xl p-5 sm:p-8 shadow-xl' : 'bg-white/80 backdrop-blur-sm rounded-xl p-3 sm:p-4'}`}
@@ -19,13 +24,15 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
       {/* 专辑封面 */}
       {song.albumImage && (
         <motion.div
-          className={`${isPrimary ? 'mb-5' : 'mb-2'} flex justify-center`}
+          className={`${isPrimary ? 'mb-5' : 'mb-2'} flex justify-center ${onPlayClick ? 'cursor-pointer' : ''}`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15 }}
+          onClick={onPlayClick}
+          whileTap={{ scale: 0.95 }}
         >
           <img
-            src={song.albumImage}
+            src={`${GITHUB_PAGES_BASE}${song.albumImage}`}
             alt={song.album}
             className={`${isPrimary ? 'w-56 h-56 sm:w-72 sm:h-72' : 'w-14 h-14 sm:w-18 sm:h-18'} object-cover rounded-lg shadow-md`}
           />
@@ -82,6 +89,24 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
 // 旧的AbilityChart组件已删除
 
 export default function ResultPage({ result, onRestart }: ResultPageProps) {
+  const [currentSong, setCurrentSong] = useState<Song | null>(null);
+
+  // 组件挂载时自动播放主结果歌曲
+  useEffect(() => {
+    if (result.primary) {
+      // 延迟一点播放，确保音频元素已准备好
+      const timer = setTimeout(() => {
+        setCurrentSong(result.primary);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [result.primary]);
+
+  // 处理播放其他歌曲
+  const handlePlaySong = (song: Song) => {
+    setCurrentSong(song);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 py-8">
       <div className="max-w-lg w-full">
@@ -93,7 +118,7 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <SongCard song={result.primary} isPrimary={true} />
+            <SongCard song={result.primary} isPrimary={true} onPlayClick={() => handlePlaySong(result.primary)} />
           </motion.div>
 
           {/* 次要结果（三列并排） */}
@@ -108,10 +133,16 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
             <div className="bg-white/80 backdrop-blur-sm rounded-xl p-3 sm:p-4">
               <div className="grid grid-cols-2 gap-3">
                 {result.secondaries.map((song) => (
-                  <div key={song.id} className="flex items-center gap-2 bg-white/60 rounded-lg px-3 py-2">
+                  <motion.div
+                    key={song.id}
+                    className="flex items-center gap-2 bg-white/60 rounded-lg px-3 py-2 cursor-pointer hover:bg-white/80 transition-colors"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handlePlaySong(song)}
+                  >
                     {song.albumImage && (
                       <img
-                        src={song.albumImage}
+                        src={`${GITHUB_PAGES_BASE}${song.albumImage}`}
                         alt={song.album}
                         className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg shadow-sm flex-shrink-0"
                       />
@@ -122,7 +153,7 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
                       </p>
                       <p className="text-xs text-gray-400 leading-tight">{song.year}年</p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -148,6 +179,12 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
         </motion.div>
 
       </div>
+
+      {/* 音乐播放器 */}
+      <MusicPlayer
+        currentSong={currentSong}
+        onPlaySong={handlePlaySong}
+      />
     </div>
   );
 }

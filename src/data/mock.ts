@@ -10,6 +10,7 @@ export interface Song {
   year: string;
   album: string;
   albumImage?: string; // 专辑封面图片路径
+  music?: string; // 音乐文件路径
   originalArtist?: string;
   description: string;
   lyrics: string;
