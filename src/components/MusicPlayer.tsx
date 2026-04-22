@@ -3,9 +3,8 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Song } from '../data/mock';
 
-// GitHub Pages 部署在 sbti-mock 仓库下
-// 开发环境用相对路径，生产环境用 /sbti-mock
-const BASE_URL = import.meta.env.PROD ? '/sbti-mock' : '.';
+// 获取基础URL，与 vite.config.ts 中的 base 配置保持一致
+const BASE_URL = import.meta.env.DEV ? '' : '/sbti-mock';
 
 // 歌曲ID到音乐文件的映射
 const songIdToMusic: Record<string, string> = {
