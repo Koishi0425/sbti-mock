@@ -53,7 +53,7 @@ export default function QuizCard({
           </div>
           <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-pink-500 to-purple-500 rounded-full"
+              className="h-full bg-gradient-to-r from-stone-400 to-stone-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${((questionIndex + 1) / totalQuestions) * 100}%` }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -81,7 +81,7 @@ export default function QuizCard({
             {/* 题目图标 */}
             <div className="text-center mb-6">
               <motion.div
-                className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl text-3xl mb-4"
+                className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-stone-500 to-stone-600 rounded-2xl text-3xl mb-4"
                 animate={{
                   rotate: [0, 5, -5, 0],
                   scale: [1, 1.05, 1],
@@ -105,7 +105,7 @@ export default function QuizCard({
                 <motion.button
                   key={option.id}
                   onClick={() => onAnswer(option.id)}
-                  className="w-full p-4 bg-gray-50 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 border-2 border-gray-100 hover:border-purple-300 rounded-2xl text-left transition-all group"
+                  className="w-full p-4 bg-stone-100 hover:bg-gradient-to-r hover:from-stone-100 hover:to-stone-200 border-2 border-stone-200 hover:border-stone-400 rounded-2xl text-left transition-all group"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -114,11 +114,11 @@ export default function QuizCard({
                 >
                   <div className="flex items-center gap-4">
                     {/* 选项字母标识 */}
-                    <span className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-stone-500 to-stone-600 text-white font-bold rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                       {String.fromCharCode(65 + index)}
                     </span>
                     {/* 选项文字 */}
-                    <span className="text-gray-700 font-medium group-hover:text-gray-900 transition-colors">
+                    <span className="text-stone-700 font-medium group-hover:text-stone-900 transition-colors">
                       {option.text}
                     </span>
                   </div>
@@ -131,7 +131,7 @@ export default function QuizCard({
 
       {/* 装饰元素 */}
       <motion.div
-        className="fixed -bottom-10 -right-10 w-40 h-40 bg-purple-300 rounded-full opacity-20 blur-3xl pointer-events-none"
+        className="fixed -bottom-10 -right-10 w-40 h-40 bg-stone-400 rounded-full opacity-20 blur-3xl pointer-events-none"
         animate={{ y: [0, -20, 0] }}
         transition={{ duration: 4, repeat: Infinity }}
       />

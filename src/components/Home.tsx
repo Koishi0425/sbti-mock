@@ -1,5 +1,6 @@
 // src/components/Home.tsx
 import { motion } from 'framer-motion';
+import homeImage from '../assets/首页王菲.png';
 
 interface HomeProps {
   onStart: () => void;
@@ -11,7 +12,7 @@ export default function Home({ onStart }: HomeProps) {
       {/* 背景装饰 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute top-16 sm:top-20 left-4 sm:left-10 w-24 sm:w-32 h-24 sm:h-32 bg-yellow-300 rounded-full opacity-20 blur-3xl"
+          className="absolute top-16 sm:top-20 left-4 sm:left-10 w-24 sm:w-32 h-24 sm:h-32 bg-amber-200 rounded-full opacity-20 blur-3xl"
           animate={{
             x: [0, 30, 0],
             y: [0, -20, 0],
@@ -19,7 +20,7 @@ export default function Home({ onStart }: HomeProps) {
           transition={{ duration: 6, repeat: Infinity }}
         />
         <motion.div
-          className="absolute bottom-16 sm:bottom-20 right-4 sm:right-10 w-32 sm:w-40 h-32 sm:h-40 bg-pink-400 rounded-full opacity-20 blur-3xl"
+          className="absolute bottom-16 sm:bottom-20 right-4 sm:right-10 w-32 sm:w-40 h-32 sm:h-40 bg-stone-300 rounded-full opacity-20 blur-3xl"
           animate={{
             x: [0, -30, 0],
             y: [0, 20, 0],
@@ -27,7 +28,7 @@ export default function Home({ onStart }: HomeProps) {
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/4 w-20 sm:w-24 h-20 sm:h-24 bg-purple-400 rounded-full opacity-15 blur-2xl"
+          className="absolute top-1/2 left-1/4 w-20 sm:w-24 h-20 sm:h-24 bg-stone-400 rounded-full opacity-15 blur-2xl"
           animate={{
             x: [0, 20, 0],
             y: [0, -30, 0],
@@ -63,27 +64,25 @@ export default function Home({ onStart }: HomeProps) {
           推荐一首王菲的歌
         </motion.p>
 
-        {/* 特点标签 */}
+        {/* 王菲照片 */}
         <motion.div
-          className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          className="mb-6 sm:mb-8 flex justify-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4 }}
         >
-          {['12道选择题', '发现你的王菲歌'].map((tag) => (
-            <span
-              key={tag}
-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs sm:text-sm font-medium"
-            >
-              {tag}
-            </span>
-          ))}
+          <img
+            src={homeImage}
+            alt="王菲"
+            className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-cover rounded-full shadow-2xl border-4 border-stone-300/40"
+          />
         </motion.div>
+
 
         {/* 开始按钮 */}
         <motion.button
           onClick={onStart}
-          className="relative px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold text-lg sm:text-xl rounded-2xl shadow-lg shadow-orange-500/40 hover:shadow-xl hover:shadow-orange-500/50 transition-all"
+          className="relative px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-amber-100 to-stone-200 text-stone-800 font-bold text-lg sm:text-xl rounded-2xl shadow-lg shadow-stone-700/20 hover:shadow-xl hover:shadow-stone-700/30 transition-all"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.7, type: 'spring' }}
@@ -96,7 +95,7 @@ export default function Home({ onStart }: HomeProps) {
           </span>
           {/* 呼吸灯效果 */}
           <motion.div
-            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500"
+            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-100 to-stone-200"
             animate={{
               opacity: [0.5, 0.8, 0.5],
               scale: [1, 1.02, 1],

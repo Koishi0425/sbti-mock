@@ -70,7 +70,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400">
+    <div className="min-h-screen bg-gradient-to-br from-stone-700 via-stone-600 to-stone-500">
       <AnimatePresence mode="wait">
         {step === 'home' && <Home key="home" onStart={handleStart} />}
 
