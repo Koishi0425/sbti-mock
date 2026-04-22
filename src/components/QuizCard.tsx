@@ -39,10 +39,10 @@ export default function QuizCard({
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6">
+    <div className="min-h-screen flex flex-col items-center justify-start px-4 py-8">
       <div className="w-full max-w-md mx-auto">
         {/* 进度条 */}
-        <div className="mb-6 mt-4">
+        <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
             <span className="text-white/80 text-sm font-medium">
               问题 {questionIndex + 1} / {totalQuestions}

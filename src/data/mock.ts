@@ -305,7 +305,7 @@ export const questions: Question[] = [
     options: [
       { id: 'q3_a', text: '躲在房间里不出来', weights: [{ songId: '百年孤寂', score: 3 }, { songId: '只爱陌生人', score: 1 }, { songId: '浮躁', score: 1 }, { songId: 'Di-Dar', score: 1 }] },
       { id: 'q3_b', text: '礼貌地打个招呼，然后就去做自己的事', weights: [{ songId: '你快乐所以我快乐', score: 3 }, { songId: '天空', score: 1 }, { songId: '但愿人长久', score: 1 }, { songId: '梦中人', score: 1 }] },
-      { id: 'q3_c', text: '硬着头皮陪聊，心里盼着他们快点走', weights: [{ songId: '醒不来', score: 3 }, { songId: '胡思乱想', score: 1 }, { songId: '分裂', score: 1 }, { songId: '末日', score: 1 }] },
+      { id: 'q3_c', text: '硬着头皮陪聊，心里盼着ta们快点走', weights: [{ songId: '醒不来', score: 3 }, { songId: '胡思乱想', score: 1 }, { songId: '分裂', score: 1 }, { songId: '末日', score: 1 }] },
       { id: 'q3_d', text: '找个借口立刻出门', weights: [{ songId: '为非作歹', score: 3 }, { songId: '讨好自己', score: 1 }, { songId: '不留', score: 1 }, { songId: '新房客', score: 1 }] },
     ],
   },
@@ -334,9 +334,9 @@ export const questions: Question[] = [
     questionText: '如果喜欢的人不喜欢你，你会？',
     options: [
       { id: 'q6_a', text: '立刻放弃，绝不纠缠', weights: [{ songId: '不得了', score: 3 }, { songId: '讨好自己', score: 1 }, { songId: '为非作歹', score: 1 }, { songId: '不留', score: 1 }] },
-      { id: 'q6_b', text: '默默喜欢，直到忘记他', weights: [{ songId: '梦中人', score: 1 }, { songId: '天空', score: 1 }, { songId: '但愿人长久', score: 1 }, { songId: '你快乐所以我快乐', score: 1 }] },
+      { id: 'q6_b', text: '默默喜欢，直到忘记ta', weights: [{ songId: '梦中人', score: 1 }, { songId: '天空', score: 1 }, { songId: '但愿人长久', score: 1 }, { songId: '你快乐所以我快乐', score: 1 }] },
       { id: 'q6_c', text: '勇敢表白，哪怕被拒绝', weights: [{ songId: '分裂', score: 1 }, { songId: '胡思乱想', score: 1 }, { songId: '醒不来', score: 1 }, { songId: '末日', score: 1 }] },
-      { id: 'q6_d', text: '做朋友，一直陪在他身边', weights: [{ songId: '乘客', score: 3 }, { songId: '新房客', score: 1 }, { songId: 'Di-Dar', score: 1 }, { songId: '浮躁', score: 1 }] },
+      { id: 'q6_d', text: '做朋友，一直陪在ta身边', weights: [{ songId: '乘客', score: 3 }, { songId: '新房客', score: 1 }, { songId: 'Di-Dar', score: 1 }, { songId: '浮躁', score: 1 }] },
     ],
   },
   {
@@ -373,7 +373,7 @@ export const questions: Question[] = [
     id: 'q10',
     questionText: '如果可以回到过去，你会？',
     options: [
-      { id: 'q10_a', text: '回到和他相遇的那天', weights: [{ songId: '末日', score: 1 }, { songId: '梦中人', score: 1 }, { songId: '但愿人长久', score: 1 }, { songId: '醒不来', score: 1 }] },
+      { id: 'q10_a', text: '回到和ta相遇的那天', weights: [{ songId: '末日', score: 1 }, { songId: '梦中人', score: 1 }, { songId: '但愿人长久', score: 1 }, { songId: '醒不来', score: 1 }] },
       { id: 'q10_b', text: '回到小时候，重新来过', weights: [{ songId: '天空', score: 1 }, { songId: '你快乐所以我快乐', score: 1 }, { songId: '但愿人长久', score: 1 }, { songId: '醒不来', score: 1 }] },
       { id: 'q10_c', text: '什么都不改变，过去的就让它过去', weights: [{ songId: '新房客', score: 1 }, { songId: '乘客', score: 1 }, { songId: '分裂', score: 1 }, { songId: '胡思乱想', score: 1 }] },
       { id: 'q10_d', text: '不想回到过去，未来更值得期待', weights: [{ songId: '只爱陌生人', score: 3 }, { songId: '百年孤寂', score: 1 }, { songId: 'Di-Dar', score: 1 }, { songId: '浮躁', score: 1 }] },

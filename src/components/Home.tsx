@@ -74,7 +74,7 @@ export default function Home({ onStart }: HomeProps) {
           <img
             src={homeImage}
             alt="王菲"
-            className="w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 object-cover rounded-full shadow-2xl border-4 border-stone-300/40"
+            className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-cover rounded-full shadow-2xl border-4 border-stone-300/40"
           />
         </motion.div>
 
