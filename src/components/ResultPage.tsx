@@ -11,7 +11,7 @@ interface ResultPageProps {
 function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean }) {
   return (
     <motion.div
-      className={`${isPrimary ? 'bg-white rounded-2xl p-4 sm:p-6 shadow-xl' : 'bg-white/80 backdrop-blur-sm rounded-xl p-3 sm:p-4'}`}
+      className={`${isPrimary ? 'bg-white rounded-2xl p-5 sm:p-8 shadow-xl' : 'bg-white/80 backdrop-blur-sm rounded-xl p-3 sm:p-4'}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: isPrimary ? 0.2 : 0.5 }}
@@ -19,7 +19,7 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
       {/* 专辑封面 */}
       {song.albumImage && (
         <motion.div
-          className={`${isPrimary ? 'mb-4' : 'mb-3'} flex justify-center`}
+          className={`${isPrimary ? 'mb-5' : 'mb-2'} flex justify-center`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15 }}
@@ -27,29 +27,31 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
           <img
             src={song.albumImage}
             alt={song.album}
-            className={`${isPrimary ? 'w-48 h-48 sm:w-64 sm:h-64' : 'w-16 h-16 sm:w-20 sm:h-20'} object-cover rounded-lg shadow-md`}
+            className={`${isPrimary ? 'w-56 h-56 sm:w-72 sm:h-72' : 'w-14 h-14 sm:w-18 sm:h-18'} object-cover rounded-lg shadow-md`}
           />
         </motion.div>
       )}
 
       {/* 歌曲标题 */}
       <motion.h2
-        className={`${isPrimary ? 'text-2xl sm:text-3xl' : 'text-lg sm:text-xl'} font-black text-gray-900 mb-2 text-center`}
+        className={`${isPrimary ? 'text-3xl sm:text-4xl' : 'text-base sm:text-lg'} font-black text-gray-900 mb-2 text-center`}
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.3, type: 'spring' }}
       >
         {song.title}
       </motion.h2>
-      
+
       {/* 年份和专辑 */}
-      <p className={`${isPrimary ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'} text-gray-600 mb-2 text-center`}>
-        来自{song.year}年，收录于{song.album}
-        {song.originalArtist && (
-          <span className="text-gray-500"> (翻自{song.originalArtist})</span>
-        )}
-      </p>
-      
+      {isPrimary && (
+        <p className="text-sm sm:text-base text-gray-600 mb-3 text-center">
+          来自{song.year}年，收录于{song.album}
+          {song.originalArtist && (
+            <span className="text-gray-500"> (翻自{song.originalArtist})</span>
+          )}
+        </p>
+      )}
+
       {/* 描述 */}
       {isPrimary && (
         <motion.p
@@ -61,16 +63,18 @@ function SongCard({ song, isPrimary = false }: { song: Song; isPrimary?: boolean
           {song.description}
         </motion.p>
       )}
-      
+
       {/* 歌词 */}
-      <motion.p
-        className={`${isPrimary ? 'text-base sm:text-lg' : 'text-xs sm:text-sm'} text-gray-500 italic text-center`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: isPrimary ? 0.5 : 0.6 }}
-      >
-        {song.lyrics}
-      </motion.p>
+      {isPrimary && (
+        <motion.p
+          className="text-base sm:text-lg text-gray-500 italic text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {song.lyrics}
+        </motion.p>
+      )}
     </motion.div>
   );
 }
@@ -92,16 +96,33 @@ export default function ResultPage({ result, onRestart }: ResultPageProps) {
             <SongCard song={result.primary} isPrimary={true} />
           </motion.div>
 
-          {/* 可以再试试 */}
+          {/* 次要结果（三列并排） */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
             <h2 className="text-white font-bold text-lg sm:text-xl mt-4 sm:mt-6 mb-2 sm:mb-3">
-              可以再试试：
+              也可以试试：
             </h2>
-            <SongCard song={result.secondary} isPrimary={false} />
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-3 sm:p-4">
+              <div className="grid grid-cols-3 gap-3">
+                {result.secondaries.map((song) => (
+                  <div key={song.id} className="flex items-center gap-2">
+                    {song.albumImage && (
+                      <img
+                        src={song.albumImage}
+                        alt={song.album}
+                        className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg shadow-sm flex-shrink-0"
+                      />
+                    )}
+                    <p className="text-xs sm:text-sm font-black text-gray-900 leading-tight">
+                      {song.title.replace(/^《|》$/g, '')}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
 

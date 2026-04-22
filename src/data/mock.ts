@@ -39,7 +39,7 @@ export interface Question {
 /** 测试结果 */
 export interface Result {
   primary: Song;
-  secondary: Song;
+  secondaries: Song[];
 }
 
 // ==================== 歌曲数据 ====================
@@ -464,35 +464,33 @@ export function checkAngelHidden(answers: Record<string, string>, scores: Record
 /**
  * 根据得分获取测试结果
  */
-export function determineResult(answers: Record<string, string>): { primary: Song; secondary: Song } {
+export function determineResult(answers: Record<string, string>): { primary: Song; secondaries: Song[] } {
   const scores = calculateScores(answers);
-  
+
+  // 排序得分
+  const sorted = Object.entries(scores)
+    .sort((a, b) => b[1] - a[1] || (songMap.get(a[0])?.priority || 0) - (songMap.get(b[0])?.priority || 0));
+
   // 检查隐藏款
   const ultimate = checkUltimateHidden(answers, scores);
   if (ultimate) {
-    const sorted = Object.entries(scores)
-      .filter(([id]) => id !== '彼岸花')
-      .sort((a, b) => b[1] - a[1] || (songMap.get(a[0])?.priority || 0) - (songMap.get(b[0])?.priority || 0));
-    const secondary = songMap.get(sorted[0][0]) || songs[0];
-    return { primary: ultimate, secondary };
+    const primary = ultimate;
+    const secondaries = sorted.slice(1, 4).map(([id]) => songMap.get(id)!).filter(Boolean);
+    return { primary, secondaries };
   }
-  
+
   const angel = checkAngelHidden(answers, scores);
   if (angel) {
-    const sorted = Object.entries(scores)
-      .filter(([id]) => id !== '天使')
-      .sort((a, b) => b[1] - a[1] || (songMap.get(a[0])?.priority || 0) - (songMap.get(b[0])?.priority || 0));
-    const secondary = songMap.get(sorted[0][0]) || songs[0];
-    return { primary: angel, secondary };
+    const primary = angel;
+    const secondaries = sorted.slice(1, 4).map(([id]) => songMap.get(id)!).filter(Boolean);
+    return { primary, secondaries };
   }
-  
+
   // 普通结果
-  const sorted = Object.entries(scores)
-    .sort((a, b) => b[1] - a[1] || (songMap.get(a[0])?.priority || 0) - (songMap.get(b[0])?.priority || 0));
-  
-  const primary = songMap.get(sorted[0][0]) || songs[0];
-  const secondary = songMap.get(sorted[1][0]) || songs[1] || songs[0];
-  
-  return { primary, secondary };
+  const topN = sorted.slice(0, 4);
+  const primary = songMap.get(topN[0][0]) || songs[0];
+  const secondaries = topN.slice(1, 4).map(([id]) => songMap.get(id)!).filter(Boolean);
+
+  return { primary, secondaries };
 }
 
