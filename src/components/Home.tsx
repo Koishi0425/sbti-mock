@@ -43,37 +43,24 @@ export default function Home({ onStart }: HomeProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
       >
-        {/* Logo/Icon */}
-        <motion.div
-          className="mb-6 sm:mb-8"
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-        >
-          <div className="text-6xl sm:text-7xl md:text-8xl mb-3 sm:mb-4">🧠</div>
-        </motion.div>
-
         {/* 标题 */}
         <motion.h1
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-3 sm:mb-4 tracking-tight leading-tight"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-3 sm:mb-4 tracking-tight leading-tight"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          SBTI
-          <br />
-          <span className="text-yellow-300">傻大个性格测试</span>
+          Faye TI
         </motion.h1>
 
         {/* 副标题 */}
         <motion.p
-          className="text-base sm:text-lg text-white/80 mb-6 sm:mb-8 leading-relaxed"
+          className="text-lg sm:text-xl text-white/80 mb-8 sm:mb-10 leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          12道趣味题目
-          <br />
-          发现自己隐藏的超级人格
+          推荐一首王菲的歌
         </motion.p>
 
         {/* 特点标签 */}
@@ -83,7 +70,7 @@ export default function Home({ onStart }: HomeProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          {['趣味测试', '精准分析', '趣味海报'].map((tag) => (
+          {['12道选择题', '发现你的王菲歌'].map((tag) => (
             <span
               key={tag}
               className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs sm:text-sm font-medium"
@@ -104,7 +91,7 @@ export default function Home({ onStart }: HomeProps) {
           whileHover={{ scale: 1.02 }}
         >
           <span className="flex items-center justify-center gap-2 sm:gap-3">
-            <span className="text-xl sm:text-2xl">🚀</span>
+            <span className="text-xl sm:text-2xl">🎤</span>
             <span>开始测试</span>
           </span>
           {/* 呼吸灯效果 */}

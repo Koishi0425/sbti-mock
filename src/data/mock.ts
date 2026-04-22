@@ -1,19 +1,25 @@
-// src/data/mock.ts
-// 数据与逻辑分离 - 包含所有题库、选项权重和结果定义
+﻿// src/data/mock.ts
+// 王菲歌曲推荐测试 - 数据与逻辑分离
 
 // ==================== 类型定义 ====================
 
-/** 性格维度权重 */
-export interface DimensionScore {
-  dimension: string;
-  score: number;
+/** 歌曲数据结构 */
+export interface Song {
+  id: string;
+  title: string;
+  year: string;
+  album: string;
+  originalArtist?: string;
+  description: string;
+  lyrics: string;
+  priority: number; // 用于同分时的优先级
 }
 
 /** 测试选项 */
 export interface Option {
   id: string;
   text: string;
-  weights: DimensionScore[];
+  weights: string[]; // 对应歌曲ID列表
 }
 
 /** 测试题目 */
@@ -23,524 +29,441 @@ export interface Question {
   options: Option[];
 }
 
-/** 能力维度属性 */
-export interface AbilityScore {
-  dimension: string;
-  label: string;
-  score: number;
-}
-
 /** 测试结果 */
 export interface Result {
-  id: string;
-  title: string;
-  tags: string[];
-  description: string;
-  abilities: AbilityScore[];
-  recommendations: string[];
+  primary: Song;
+  secondary: Song;
 }
 
-// ==================== 维度定义 ====================
+// ==================== 歌曲数据 ====================
 
-export const DIMENSIONS = ['E', 'I', 'S', 'N'] as const;
-export const DIMENSION_LABELS: Record<string, string> = {
-  E: '外向型',
-  I: '内向型',
-  S: '实感型',
-  N: '直觉型',
-};
+export const songs: Song[] = [
+  {
+    id: '胡思乱想',
+    title: '《胡思乱想》',
+    year: '1994',
+    album: '《胡思乱想》',
+    originalArtist: 'Bluebeard — Cocteau Twins',
+    description: '就让情绪失控，任由自己想哭、想笑、也想跳',
+    lyrics: '"无端想某人 想得天昏地暗"',
+    priority: 1,
+  },
+  {
+    id: '梦中人',
+    title: '《梦中人》',
+    year: '1994',
+    album: '《胡思乱想》',
+    originalArtist: 'Dreams — The Cranberries',
+    description: '阿菲给自己造梦，攥着金鱼袋在空公寓摇头晃脑，自演一场热恋。再看次《重庆森林》吧!',
+    lyrics: '"梦中人 一分钟抱紧 接十分钟的吻"',
+    priority: 2,
+  },
+  {
+    id: '讨好自己',
+    title: '《讨好自己》',
+    year: '1994',
+    album: '《讨好自己》',
+    description: '讨好自己，明知不过是自欺',
+    lyrics: '"漫天的是非 做我的真理"',
+    priority: 3,
+  },
+  {
+    id: '为非作歹',
+    title: '《为非作歹》',
+    year: '1994',
+    album: '《讨好自己》',
+    originalArtist: "Here's Where the Story Ends — The Sundays",
+    description: '不错，那是爱情',
+    lyrics: '"如何是对 何谓做错 我不太清楚 沉迷地爱 宁愿犯错 错失却不可"',
+    priority: 4,
+  },
+  {
+    id: '假期',
+    title: '《假期》',
+    year: '1995',
+    album: '《Di-Dar》',
+    description: '当作是某段意外假期，我爱上过你',
+    lyrics: '"现在尽量放任吧 现在尽量快乐吧 现在尽量纪念吧 始终都需要回家"',
+    priority: 5,
+  },
+  {
+    id: 'Di-Dar',
+    title: '《Di-Dar》',
+    year: '1995',
+    album: '《Di-Dar》',
+    description: '"Di-Dar"，很有意思的谐音，就当是又过了一秒',
+    lyrics: '"不要偷看你一秒 是害怕突然会偷笑"',
+    priority: 6,
+  },
+  {
+    id: '浮躁',
+    title: '《浮躁》',
+    year: '1996',
+    album: '《浮躁》',
+    description: '天高气爽，心旷神怡',
+    lyrics: '"九月里 平淡无聊 一切都好 只缺烦恼"',
+    priority: 7,
+  },
+  {
+    id: '分裂',
+    title: '《分裂》',
+    year: '1996',
+    album: '《浮躁》',
+    description: '一半热，一半冷；一半分享，一半留给自己',
+    lyrics: '"一面笑得天真无邪 一面看破一切"',
+    priority: 8,
+  },
+  {
+    id: '末日',
+    title: '《末日》',
+    year: '1996',
+    album: '《浮躁》',
+    description: '这不是末日，而是末日之后',
+    lyrics: '"清规戒律 没有意义 三心二意 才是魅力"',
+    priority: 9,
+  },
+  {
+    id: '天空',
+    title: '《天空》',
+    year: '1994',
+    album: '《天空》',
+    description: '同一片天空，何时才能再相连',
+    lyrics: '"我的天空 为何挂满湿的泪 我的天空 为何总灰的脸"',
+    priority: 10,
+  },
+  {
+    id: '天使',
+    title: '《天使》',
+    year: '1994',
+    album: '《天空》',
+    description: 'May you lovers finally become spouses!!',
+    lyrics: '"我不相信 一瞬间的勇气 我只接受 一辈子的约定"',
+    priority: 11,
+  },
+  {
+    id: '但愿人长久',
+    title: '《但愿人长久》',
+    year: '1995',
+    album: '《菲靡靡之音》',
+    originalArtist: '邓丽君',
+    description: '人有悲欢离合 月有阴晴圆缺 此事古难全',
+    lyrics: '"但愿人长久 千里共婵娟"',
+    priority: 12,
+  },
+  {
+    id: '不留',
+    title: '《不留》',
+    year: '2003',
+    album: '《将爱》',
+    description: '如果我还有哀伤，让风吹散它',
+    lyrics: '"情愿什么也不留下 再没有什么牵挂"',
+    priority: 13,
+  },
+  {
+    id: '乘客',
+    title: '《乘客》',
+    year: '2003',
+    album: '《将爱》',
+    originalArtist: 'Going Home — Sophie Zelmani',
+    description: '让我感谢你，赠我空欢喜——《Going Home》（粤语填词）',
+    lyrics: '"坐你开的车 听你听的歌"',
+    priority: 14,
+  },
+  {
+    id: '脸',
+    title: '《脸》',
+    year: '1998',
+    album: '《唱游》',
+    description: '两个人的语言系统，外面的人听不懂，里面的人无需多说',
+    lyrics: '"最好 没有人明白我说什么 只有你 听懂我想什么"',
+    priority: 15,
+  },
+  {
+    id: '醒不来',
+    title: '《醒不来》',
+    year: '1998',
+    album: '《唱游》',
+    description: '睡、悬浮、发呆',
+    lyrics: '"分不清白天 看不见黑夜"',
+    priority: 16,
+  },
+  {
+    id: '你快乐所以我快乐',
+    title: '《你快乐所以我快乐》',
+    year: '1997',
+    album: '《王菲》',
+    description: '没有什么"自己"，附随到心安理得',
+    lyrics: '"你眉头开了 所以我笑了 你眼睛红了 我的天灰了"',
+    priority: 17,
+  },
+  {
+    id: '只爱陌生人',
+    title: '《只爱陌生人》',
+    year: '1999',
+    album: '《只爱陌生人》',
+    description: '你是谁都行，反正我不会记得',
+    lyrics: '"当我需要的只是一个吻 就给我一个吻 我只爱陌生人"',
+    priority: 18,
+  },
+  {
+    id: '百年孤寂',
+    title: '《百年孤寂》',
+    year: '1999',
+    album: '《只爱陌生人》',
+    description: '空空如也啊，空空如也',
+    lyrics: '"背影是真的 人是假的 没什么执着 一百年前 你不是你 我不是我"',
+    priority: 19,
+  },
+  {
+    id: '不了了',
+    title: '《不得了》',
+    year: '1997',
+    album: '《敷衍》（2015）',
+    description: '可是我觉得这很不得了啊',
+    lyrics: '"不得了 不需发烧 都不紧要 不需要叫嚣"',
+    priority: 20,
+  },
+  {
+    id: '新房客',
+    title: '《新房客》',
+    year: '2000',
+    album: '《寓言》',
+    description: '一切都来得正好，不缺烦恼',
+    lyrics: '"有人在吗 有谁来找 我说你好 你说打扰"',
+    priority: 21,
+  },
+  {
+    id: '彼岸花',
+    title: '《彼岸花》',
+    year: '2000',
+    album: '《寓言》',
+    description: '关于被解构的"浪漫"的一地狼藉，王菲所选择的答案依然是相信美好',
+    lyrics: '"他来 我对自己说 我不害怕 我很爱他"',
+    priority: 22,
+  },
+];
 
-// ==================== Mock 数据：12道测试题 ====================
+// 歌曲ID到对象的映射
+const songMap = new Map(songs.map(s => [s.id, s]));
+
+// ==================== 12道测试题（来自文档） ====================
 
 export const questions: Question[] = [
   {
     id: 'q1',
-    questionText: '周末你更想做什么？',
+    questionText: '一个没有任何安排���周末下午，你更愿意？',
     options: [
-      {
-        id: 'q1_a',
-        text: '约朋友去热闹的酒吧/餐厅聚会',
-        weights: [{ dimension: 'E', score: 2 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q1_b',
-        text: '一个人窝在家里看书/打游戏',
-        weights: [{ dimension: 'I', score: 2 }, { dimension: 'E', score: -1 }],
-      },
-      {
-        id: 'q1_c',
-        text: '去户外徒步或参加艺术展',
-        weights: [{ dimension: 'S', score: 1 }, { dimension: 'N', score: 1 }],
-      },
-      {
-        id: 'q1_d',
-        text: '参加主题派对或认识新朋友',
-        weights: [{ dimension: 'E', score: 1 }, { dimension: 'N', score: 1 }],
-      },
+      { id: 'q1_a', text: '拉上窗帘，躺在床上发呆，什么也不做', weights: ['胡思乱想', '分裂', '醒不来', '末日'] },
+      { id: 'q1_b', text: '约最好的朋友，找个安静的咖啡馆坐一下午', weights: ['天空', '但愿人长久', '你快乐所以我快乐', '梦中人'] },
+      { id: 'q1_c', text: '戴上耳机，脑子里想一些乱七八糟的事', weights: ['Di-Dar', '只爱陌生人', '百年孤寂', '乘客'] },
+      { id: 'q1_d', text: '找个借口推掉所有邀约，给自己放个假', weights: ['假期', '讨好自己', '不留', '脸'] },
     ],
   },
   {
     id: 'q2',
-    questionText: '当你遇到一个新问题时，你倾向于？',
+    questionText: '别人对你的负面评价，你通常会？',
     options: [
-      {
-        id: 'q2_a',
-        text: '依靠过去的经验和已有方法解决',
-        weights: [{ dimension: 'S', score: 2 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q2_b',
-        text: '大胆尝试全新的解决思路',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q2_c',
-        text: '先分析问题，再制定计划',
-        weights: [{ dimension: 'I', score: 1 }, { dimension: 'S', score: 1 }],
-      },
-      {
-        id: 'q2_d',
-        text: '先听听大家的想法，再决定',
-        weights: [{ dimension: 'E', score: 1 }, { dimension: 'N', score: 1 }],
-      },
+      { id: 'q2_a', text: '左耳进右耳出，根本不在乎', weights: ['浮躁', 'Di-Dar', '只爱陌生人', '百年孤寂'] },
+      { id: 'q2_b', text: '表面不在意，心里会偷偷难过很久', weights: ['天空', '但愿人长久', '你快乐所以我快乐', '梦中人'] },
+      { id: 'q2_c', text: '会反思，但不会改变自己', weights: ['分裂', '胡思乱想', '醒不来', '末日'] },
+      { id: 'q2_d', text: '直接无视，我自己是什么样我最清楚', weights: ['讨好自己', '为非作歹', '不留', '不了了'] },
     ],
   },
   {
     id: 'q3',
-    questionText: '你更喜欢什么样的工作环境？',
+    questionText: '家里来了完全不熟悉的客人，你会？',
     options: [
-      {
-        id: 'q3_a',
-        text: '安静独立的空间，可以专注思考',
-        weights: [{ dimension: 'I', score: 2 }, { dimension: 'E', score: -1 }],
-      },
-      {
-        id: 'q3_b',
-        text: '开放协作的团队氛围',
-        weights: [{ dimension: 'E', score: 2 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q3_c',
-        text: '有明确流程和规范的环境',
-        weights: [{ dimension: 'S', score: 2 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q3_d',
-        text: '自由创新、没有太多限制的空间',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
+      { id: 'q3_a', text: '躲在房间里不出来', weights: ['百年孤寂', '只爱陌生人', '浮躁', 'Di-Dar'] },
+      { id: 'q3_b', text: '礼貌地打个招呼，然后就去做自己的事', weights: ['你快乐所以我快乐', '天空', '但愿人长久', '梦中人'] },
+      { id: 'q3_c', text: '硬着头皮陪聊，心里盼着他们快点走', weights: ['醒不来', '胡思乱想', '分裂', '末日'] },
+      { id: 'q3_d', text: '找个借口立刻出门', weights: ['为非作歹', '讨好自己', '不留', '新房客'] },
     ],
   },
   {
     id: 'q4',
-    questionText: '和朋友聊天时，你更关注什么？',
+    questionText: '爱情里最美好的阶段可能是？',
     options: [
-      {
-        id: 'q4_a',
-        text: '具体的事实和数据',
-        weights: [{ dimension: 'S', score: 2 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q4_b',
-        text: '对方的感受和情绪',
-        weights: [{ dimension: 'I', score: 1 }, { dimension: 'N', score: 1 }],
-      },
-      {
-        id: 'q4_c',
-        text: '未来的可能性和创意',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q4_d',
-        text: '当下的热门话题和八卦',
-        weights: [{ dimension: 'E', score: 1 }, { dimension: 'I', score: -1 }],
-      },
+      { id: 'q4_a', text: '分开之后，回忆的时候', weights: ['只爱陌生人', '百年孤寂', '乘客', '新房客'] },
+      { id: 'q4_b', text: '刚在一起，热恋的时候', weights: ['梦中人', '天空', '但愿人长久', '你快乐所以我快乐'] },
+      { id: 'q4_c', text: '暧昧不清，互相试探的时候', weights: ['末日', '胡思乱想', '分裂', '醒不来'] },
+      { id: 'q4_d', text: '平淡如水，互相陪伴的时候', weights: ['不留', '讨好自己', '为非作歹', '脸'] },
     ],
   },
   {
     id: 'q5',
-    questionText: '你做决定时更看重？',
+    questionText: '假如你失恋了，你会怎么做？',
     options: [
-      {
-        id: 'q5_a',
-        text: '逻辑分析和客观事实',
-        weights: [{ dimension: 'S', score: 1 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q5_b',
-        text: '个人价值观和情感因素',
-        weights: [{ dimension: 'N', score: 1 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q5_c',
-        text: '多数人的意见和共识',
-        weights: [{ dimension: 'E', score: 1 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q5_d',
-        text: '自己内心的真实想法',
-        weights: [{ dimension: 'I', score: 1 }, { dimension: 'E', score: -1 }],
-      },
+      { id: 'q5_a', text: '一个人待着，谁也别来打扰', weights: ['百年孤寂', '只爱陌生人', '浮躁', 'Di-Dar'] },
+      { id: 'q5_b', text: '找朋友倾诉，哭一场就好了', weights: ['天空', '但愿人长久', '你快乐所以我快乐', '梦中人'] },
+      { id: 'q5_c', text: '把所有的情绪都写在日记里', weights: ['胡思乱想', '分裂', '醒不来', '末日'] },
+      { id: 'q5_d', text: '删掉所有联系方式，再也不联系', weights: ['不留', '讨好自己', '为非作歹', '不了了'] },
     ],
   },
   {
     id: 'q6',
-    questionText: '旅行时你更喜欢？',
+    questionText: '如果喜欢的人不喜欢你，你会？',
     options: [
-      {
-        id: 'q6_a',
-        text: '精心计划每一天的行程',
-        weights: [{ dimension: 'S', score: 2 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q6_b',
-        text: '随心所欲，走到哪算哪',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q6_c',
-        text: '热门打卡景点的社交旅行',
-        weights: [{ dimension: 'E', score: 2 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q6_d',
-        text: '独自探索小众目的地的深度游',
-        weights: [{ dimension: 'I', score: 2 }, { dimension: 'E', score: -1 }],
-      },
+      { id: 'q6_a', text: '立刻放弃，绝不纠缠', weights: ['不了了', '讨好自己', '为非作歹', '不留', '天使'] },
+      { id: 'q6_b', text: '默默喜欢，直到忘记他', weights: ['梦中人', '天空', '但愿人长久', '你快乐所以我快乐'] },
+      { id: 'q6_c', text: '勇敢表白，哪怕被拒绝', weights: ['分裂', '胡思乱想', '醒不来', '末日'] },
+      { id: 'q6_d', text: '做朋友，一直陪在他身边', weights: ['乘客', '新房客', 'Di-Dar', '浮躁', '天使'] },
     ],
   },
   {
     id: 'q7',
-    questionText: '当别人向你倾诉烦恼时，你通常？',
+    questionText: '难过的时候你会？',
     options: [
-      {
-        id: 'q7_a',
-        text: '给出具体的解决方案',
-        weights: [{ dimension: 'S', score: 1 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q7_b',
-        text: '倾听并给予情感支持',
-        weights: [{ dimension: 'I', score: 1 }, { dimension: 'E', score: -1 }],
-      },
-      {
-        id: 'q7_c',
-        text: '分享自己类似的经历',
-        weights: [{ dimension: 'E', score: 1 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q7_d',
-        text: '从新角度分析问题本质',
-        weights: [{ dimension: 'N', score: 1 }, { dimension: 'S', score: -1 }],
-      },
+      { id: 'q7_a', text: '躺在床上发呆，什么也不想做', weights: ['醒不来', '胡思乱想', '分裂', '末日', '彼岸花'] },
+      { id: 'q7_b', text: '第一时间找朋友倾诉', weights: ['天空', '但愿人长久', '你快乐所以我快乐', '梦中人'] },
+      { id: 'q7_c', text: '听歌，把音量开到最大', weights: ['浮躁', 'Di-Dar', '只爱陌生人', '百年孤寂'] },
+      { id: 'q7_d', text: '出去走走，吹吹风就好了', weights: ['新房客', '乘客', '讨好自己', '不留'] },
     ],
   },
   {
     id: 'q8',
-    questionText: '你更愿意参加哪种活动？',
+    questionText: '非要选一个的话，你觉得自己是一个？',
     options: [
-      {
-        id: 'q8_a',
-        text: '学术讲座或专业研讨会',
-        weights: [{ dimension: 'I', score: 1 }, { dimension: 'S', score: 1 }],
-      },
-      {
-        id: 'q8_b',
-        text: '音乐节或演唱会',
-        weights: [{ dimension: 'E', score: 2 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q8_c',
-        text: '创意工作坊或艺术体验',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q8_d',
-        text: '体育比赛或户外运动',
-        weights: [{ dimension: 'E', score: 1 }, { dimension: 'S', score: 1 }],
-      },
+      { id: 'q8_a', text: '矛盾的人，连自己都搞不懂自己', weights: ['胡思乱想', '分裂', '醒不来', '末日'] },
+      { id: 'q8_b', text: '善良的人，总是忍不住帮助别人', weights: ['但愿人长久', '天空', '你快乐所以我快乐', '梦中人', '天使'] },
+      { id: 'q8_c', text: '孤独的人，习惯了一个人', weights: ['百年孤寂', '只爱陌生人', '乘客', '新房客'] },
+      { id: 'q8_d', text: '自私的人，只在乎自己的感受', weights: ['脸', '讨好自己', '为非作歹', '不留'] },
     ],
   },
   {
     id: 'q9',
-    questionText: '你觉得自己更擅长？',
+    questionText: '你有很多秘密吗？',
     options: [
-      {
-        id: 'q9_a',
-        text: '执行既定计划，完成具体任务',
-        weights: [{ dimension: 'S', score: 2 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q9_b',
-        text: '提出创新想法，规划长远目标',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q9_c',
-        text: '组织协调，凝聚团队力量',
-        weights: [{ dimension: 'E', score: 2 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q9_d',
-        text: '独立思考，深入研究问题',
-        weights: [{ dimension: 'I', score: 2 }, { dimension: 'E', score: -1 }],
-      },
+      { id: 'q9_a', text: '有很多，从来没有告诉过任何人', weights: ['脸', '百年孤寂', '只爱陌生人', '浮躁'] },
+      { id: 'q9_b', text: '有一些，只告诉最信任的朋友', weights: ['你快乐所以我快乐', '天空', '但愿人长久', '梦中人'] },
+      { id: 'q9_c', text: '很少，没什么不能说的', weights: ['乘客', '新房客', '胡思乱想', '分裂'] },
+      { id: 'q9_d', text: '没有，我是一个很透明的人', weights: ['不了了', '为非作歹', '讨好自己', '不留'] },
     ],
   },
   {
     id: 'q10',
-    questionText: '面对压力时，你通常会？',
+    questionText: '如果可以回到过去，你会？',
     options: [
-      {
-        id: 'q10_a',
-        text: '冷静分析问题根源',
-        weights: [{ dimension: 'I', score: 1 }, { dimension: 'S', score: 1 }],
-      },
-      {
-        id: 'q10_b',
-        text: '找朋友倾诉或寻求支持',
-        weights: [{ dimension: 'E', score: 2 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q10_c',
-        text: '相信直觉，快速做决定',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q10_d',
-        text: '按照以往经验处理',
-        weights: [{ dimension: 'S', score: 2 }, { dimension: 'N', score: -1 }],
-      },
+      { id: 'q10_a', text: '回到和他相遇的那天', weights: ['末日', '梦中人', '但愿人长久', '醒不来', '彼岸花'] },
+      { id: 'q10_b', text: '回到小时候，重新来过', weights: ['天空', '你快乐所以我快乐', '但愿人长久', '醒不来'] },
+      { id: 'q10_c', text: '什么都不改变，过去的就让它过去', weights: ['新房客', '乘客', '分裂', '胡思乱想'] },
+      { id: 'q10_d', text: '不想回到过去，未来更值得期待', weights: ['只爱陌生人', '百年孤寂', 'Di-Dar', '浮躁'] },
     ],
   },
   {
     id: 'q11',
-    questionText: '你理想的生活方式是？',
+    questionText: '你相信有另一个世界吗？',
     options: [
-      {
-        id: 'q11_a',
-        text: '规律有序，充实而稳定',
-        weights: [{ dimension: 'S', score: 2 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q11_b',
-        text: '充满惊喜，不断挑战自我',
-        weights: [{ dimension: 'N', score: 2 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q11_c',
-        text: '社交广泛，人脉丰富',
-        weights: [{ dimension: 'E', score: 2 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q11_d',
-        text: '内心平静，享受独处时光',
-        weights: [{ dimension: 'I', score: 2 }, { dimension: 'E', score: -1 }],
-      },
+      { id: 'q11_a', text: '相信，离开的人会在那里等我们', weights: ['末日', '醒不来', '分裂', '胡思乱想', '彼岸花'] },
+      { id: 'q11_b', text: '不相信，人死了就什么都没有了', weights: ['讨好自己', '为非作歹', '不留', '不了了'] },
+      { id: 'q11_c', text: '不知道，希望有吧', weights: ['天空', '但愿人长久', '你快乐所以我快乐', '梦中人'] },
+      { id: 'q11_d', text: '无所谓，和我没关系', weights: ['Di-Dar', '浮躁', '只爱陌生人', '百年孤寂'] },
     ],
   },
   {
     id: 'q12',
-    questionText: '你更看重自己的？',
+    questionText: '如果明天就是世界末日，你会？',
     options: [
-      {
-        id: 'q12_a',
-        text: '执行力和可靠性',
-        weights: [{ dimension: 'S', score: 1 }, { dimension: 'N', score: -1 }],
-      },
-      {
-        id: 'q12_b',
-        text: '想象力和创造力',
-        weights: [{ dimension: 'N', score: 1 }, { dimension: 'S', score: -1 }],
-      },
-      {
-        id: 'q12_c',
-        text: '领导力和影响力',
-        weights: [{ dimension: 'E', score: 1 }, { dimension: 'I', score: -1 }],
-      },
-      {
-        id: 'q12_d',
-        text: '洞察力和分析力',
-        weights: [{ dimension: 'I', score: 1 }, { dimension: 'E', score: -1 }],
-      },
+      { id: 'q12_a', text: '一个人待着，安静地等待', weights: ['末日', '百年孤寂', '只爱陌生人', '浮躁'] },
+      { id: 'q12_b', text: '和自己爱的人在一起', weights: ['你快乐所以我快乐', '天空', '但愿人长久', '梦中人', '天使'] },
+      { id: 'q12_c', text: '去做自己一直想做却没有做的事', weights: ['不了了', '为非作歹', '讨好自己', '不留'] },
+      { id: 'q12_d', text: '无所谓，和平常一样', weights: ['Di-Dar', '乘客', '新房客', '脸'] },
     ],
   },
 ];
 
-// ==================== Mock 数据：测试结果 ====================
-
-export const results: Result[] = [
-  {
-    id: 'r1',
-    title: 'ENFP',
-    tags: ['自由灵魂', '点子王', '社交蝴蝶', '热情洋溢'],
-    description:
-      '你是一个充满热情和创造力的自由灵魂！你拥有无限的想象力和好奇心，总能从平凡中发现不凡。你的能量场能够感染周围的人，是朋友中的气氛担当。但有时候你可能过于理想化，需要学会在创意和现实之间找到平衡。',
-    abilities: [
-      { dimension: 'E', label: '外向活跃', score: 92 },
-      { dimension: 'N', label: '直觉洞察', score: 88 },
-      { dimension: 'S', label: '务实稳定', score: 45 },
-      { dimension: 'I', label: '内向沉稳', score: 38 },
-    ],
-    recommendations: [
-      '适合从事需要创意和沟通的工作，如市场营销、策划、咨询',
-      '找到一个能让你自由表达想法的工作环境',
-      '学会给项目设定明确的截止日期',
-      '给自己留一些独处的时间来沉淀想法',
-    ],
-  },
-  {
-    id: 'r2',
-    title: 'INTJ',
-    tags: ['策划大师', '理性思考者', '完美主义者', '独立自主'],
-    description:
-      '你是一个天生的战略家！拥有强大的逻辑思维能力和独立思考精神。你善于制定长期计划，追求卓越和完美。在你眼中，世界充满了等待被解决的有趣问题。你的洞察力极其敏锐，能够看到别人忽视的可能性。',
-    abilities: [
-      { dimension: 'I', label: '内向沉稳', score: 90 },
-      { dimension: 'N', label: '直觉洞察', score: 94 },
-      { dimension: 'S', label: '务实稳定', score: 42 },
-      { dimension: 'E', label: '外向活跃', score: 35 },
-    ],
-    recommendations: [
-      '适合从事需要深度思考和专业技能的工作，如科研、金融、战略咨询',
-      '找一个能发挥你分析能力的平台',
-      '学会欣赏过程中的不确定性，而不是只关注结果',
-      '多参与团队协作，发掘合作的价值',
-    ],
-  },
-  {
-    id: 'r3',
-    title: 'ESFJ',
-    tags: ['暖心天使', '社交达人', '责任担当', '照顾者'],
-    description:
-      '你是一个温暖而有责任感的人！天生具有照顾他人的本能，总是乐于帮助别人。你的社交能力强，善于协调人际关系，是朋友圈中的润滑剂。你重视传统和秩序，喜欢按照计划行事。你的热情和真诚感染着身边的每一个人。',
-    abilities: [
-      { dimension: 'E', label: '外向活跃', score: 88 },
-      { dimension: 'S', label: '务实稳定', score: 85 },
-      { dimension: 'N', label: '直觉洞察', score: 40 },
-      { dimension: 'I', label: '内向沉稳', score: 32 },
-    ],
-    recommendations: [
-      '适合从事需要人际沟通和协调能力的工作，如人力资源、教育、医疗服务',
-      '找一个能让你帮助他人、发挥价值的工作环境',
-      '学会说"不"，给自己留一些私人空间',
-      '接受不是每个人都会喜欢你这个事实，减少自我怀疑',
-    ],
-  },
-  {
-    id: 'r4',
-    title: 'ISTP',
-    tags: ['动手专家', '冷静分析', '实用主义者', '冒险家'],
-    description:
-      '你是一个务实的行动派！喜欢探究事物的运作原理，动手能力超强。你冷静理性，面对紧急情况能够保持镇定并快速反应。你享受独处和自由，不喜欢被规则束缚。你的逻辑思维和实际动手能力让你成为解决复杂问题的高手。',
-    abilities: [
-      { dimension: 'I', label: '内向沉稳', score: 86 },
-      { dimension: 'S', label: '务实稳定', score: 90 },
-      { dimension: 'E', label: '外向活跃', score: 38 },
-      { dimension: 'N', label: '直觉洞察', score: 42 },
-    ],
-    recommendations: [
-      '适合从事需要技术能力和动手操作的工作，如工程、机械、编程、设计',
-      '找一个能让你独立工作、有灵活时间的工作环境',
-      '学会表达自己的想法和感受，不要总是藏在心里',
-      '多关注长期目标，而不仅仅是眼前的即时满足',
-    ],
-  },
-];
-
-// ==================== 计分算法 ====================
+// ==================== 计分和结果计算 ====================
 
 /**
- * 计算最终性格维度分数
+ * 计算各歌曲的得分
  * @param answers 用户答案（题目ID -> 选项ID的映射）
- * @returns 各维度的最终分数 {dimension: score}
+ * @returns 各歌曲的得分 {songId: score}
  */
-export function calculateScores(
-  answers: Record<string, string>
-): Record<string, number> {
-  const scores: Record<string, number> = { E: 0, I: 0, S: 0, N: 0 };
-
+export function calculateScores(answers: Record<string, string>): Record<string, number> {
+  const scores: Record<string, number> = {};
+  
+  // 初始化所有歌曲为0分
+  songs.forEach(s => scores[s.id] = 0);
+  
+  // 遍历用户答案，计算每首歌的得分
   Object.entries(answers).forEach(([questionId, optionId]) => {
-    const question = questions.find((q) => q.id === questionId);
+    const question = questions.find(q => q.id === questionId);
     if (!question) return;
-
-    const option = question.options.find((o) => o.id === optionId);
+    
+    const option = question.options.find(o => o.id === optionId);
     if (!option) return;
-
-    option.weights.forEach(({ dimension, score }) => {
-      scores[dimension] = (scores[dimension] || 0) + score;
+    
+    // 每个选项权重对应一首歌，每选一个加1分
+    option.weights.forEach(songId => {
+      if (!scores[songId]) scores[songId] = 0;
+      scores[songId] = (scores[songId] || 0) + 1;
     });
   });
-
+  
   return scores;
 }
 
 /**
- * 根据分数确定性格类型
- * @param scores 各维度分数
- * @returns 性格类型代码（如 "ENFP"）
+ * 检查是否触发顶级隐藏款《彼岸花》
  */
-export function determinePersonalityType(
-  scores: Record<string, number>
-): string {
-  const eOrI = scores.E >= scores.I ? 'E' : 'I';
-  const sOrN = scores.S >= scores.N ? 'S' : 'N';
-  const tOrF = scores.T >= scores.F ? 'T' : 'F';
-  const jOrP = scores.J >= scores.P ? 'J' : 'P';
-  return `${eOrI}${sOrN}${tOrF}${jOrP}`;
+export function checkUltimateHidden(answers: Record<string, string>, scores: Record<string, number>): Song | null {
+  const condition1 = answers['q7'] === 'q7_a';
+  const condition2 = answers['q10'] === 'q10_a';
+  const condition3 = answers['q11'] === 'q11_a';
+  const condition4 = (scores['末日'] || 0) >= 6 || (scores['醒不来'] || 0) >= 6;
+  
+  if (condition1 && condition2 && condition3 && condition4) {
+    return songMap.get('彼岸花') || null;
+  }
+  return null;
 }
 
 /**
- * 根据性格类型和实际分数获取对应结果
- * @param type 性格类型代码
- * @param scores 实际计算的维度分数
- * @returns 对应的Result对象，包含动态计算的能力值
+ * 检查是否触发次级隐藏款《天使》
  */
-export function getResultByType(
-  type: string,
-  scores: Record<string, number>
-): Result {
-  // 找出主导维度
-  const eOrI = (scores.E || 0) >= (scores.I || 0) ? 'E' : 'I';
-  const sOrN = (scores.S || 0) >= (scores.N || 0) ? 'S' : 'N';
-
-  // 根据主导维度选择最匹配的结果模板
-  // E + S -> ESFJ, E + N -> ENFP, I + S -> ISTP, I + N -> INTJ
-  let templateTitle = 'INTJ';
-  if (eOrI === 'E' && sOrN === 'S') templateTitle = 'ESFJ';
-  else if (eOrI === 'E' && sOrN === 'N') templateTitle = 'ENFP';
-  else if (eOrI === 'I' && sOrN === 'S') templateTitle = 'ISTP';
-  else if (eOrI === 'I' && sOrN === 'N') templateTitle = 'INTJ';
-
-  const template = results.find((r) => r.title === templateTitle);
-
-  // 计算动态的能力分数（0-100范围）
-  const maxPossible = 24; // 12道题，每题最多+/-2
-  const normalize = (raw: number) =>
-    Math.max(0, Math.min(100, Math.round(((raw + maxPossible) / (maxPossible * 2)) * 100)));
-
-  const dynamicAbilities: AbilityScore[] = [
-    { dimension: 'E', label: '外向活跃', score: normalize(scores.E || 0) },
-    { dimension: 'I', label: '内向沉稳', score: normalize(scores.I || 0) },
-    { dimension: 'S', label: '务实稳定', score: normalize(scores.S || 0) },
-    { dimension: 'N', label: '直觉洞察', score: normalize(scores.N || 0) },
-  ];
-
-  if (template) {
-    return { ...template, abilities: dynamicAbilities };
+export function checkAngelHidden(answers: Record<string, string>, scores: Record<string, number>): Song | null {
+  const condition1 = answers['q6'] === 'q6_d';
+  const condition2 = answers['q8'] === 'q8_b';
+  const condition3 = answers['q12'] === 'q12_b';
+  const condition4 = (scores['天空'] || 0) >= 5 || (scores['你快乐所以我快乐'] || 0) >= 5;
+  
+  if (condition1 && condition2 && condition3 && condition4) {
+    return songMap.get('天使') || null;
   }
-
-  return {
-    id: 'default',
-    title: type || '混合型',
-    tags: ['多面手', '灵活适应', '平衡发展'],
-    description: '你的性格具有多样性和适应性，能够根据不同情境灵活切换模式。',
-    abilities: dynamicAbilities,
-    recommendations: [
-      '发挥你的适应性优势，在不同场景中展现不同面貌',
-      '找到最能发挥你综合能力的工作角色',
-      '不要迷失在"成为别人期待的样子"中',
-      '培养一到两个核心优势',
-    ],
-  };
+  return null;
 }
+
+/**
+ * 根据得分获取测试结果
+ */
+export function determineResult(answers: Record<string, string>): { primary: Song; secondary: Song } {
+  const scores = calculateScores(answers);
+  
+  // 检查隐藏款
+  const ultimate = checkUltimateHidden(answers, scores);
+  if (ultimate) {
+    const sorted = Object.entries(scores)
+      .filter(([id]) => id !== '彼岸花')
+      .sort((a, b) => b[1] - a[1] || (songMap.get(a[0])?.priority || 0) - (songMap.get(b[0])?.priority || 0));
+    const secondary = songMap.get(sorted[0][0]) || songs[0];
+    return { primary: ultimate, secondary };
+  }
+  
+  const angel = checkAngelHidden(answers, scores);
+  if (angel) {
+    const sorted = Object.entries(scores)
+      .filter(([id]) => id !== '天使')
+      .sort((a, b) => b[1] - a[1] || (songMap.get(a[0])?.priority || 0) - (songMap.get(b[0])?.priority || 0));
+    const secondary = songMap.get(sorted[0][0]) || songs[0];
+    return { primary: angel, secondary };
+  }
+  
+  // 普通结果
+  const sorted = Object.entries(scores)
+    .sort((a, b) => b[1] - a[1] || (songMap.get(a[0])?.priority || 0) - (songMap.get(b[0])?.priority || 0));
+  
+  const primary = songMap.get(sorted[0][0]) || songs[0];
+  const secondary = songMap.get(sorted[1][0]) || songs[1] || songs[0];
+  
+  return { primary, secondary };
+}
+

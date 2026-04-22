@@ -6,9 +6,7 @@ import QuizCard from './components/QuizCard';
 import ResultPage from './components/ResultPage';
 import {
   questions,
-  calculateScores,
-  determinePersonalityType,
-  getResultByType,
+  determineResult,
 } from './data/mock';
 import type { Result } from './data/mock';
 
@@ -54,10 +52,8 @@ function App() {
           setIsExiting(false);
         }, 300);
       } else {
-        // 计算结果
-        const scores = calculateScores(newAnswers);
-        const personalityType = determinePersonalityType(scores);
-        const resultData = getResultByType(personalityType, scores);
+        // 计算结果 - 获取主结果和次高结果
+        const resultData = determineResult(newAnswers);
         setResult(resultData);
         setStep('result');
       }
