@@ -65,19 +65,6 @@ export default function QuizCard({
           </div>
         </div>
 
-        {/* 返回按钮 */}
-        {canGoBack && (
-          <motion.button
-            onClick={onGoBack}
-            className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white/80 hover:text-white text-sm font-medium rounded-xl transition-all backdrop-blur-sm"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            ← 返回
-          </motion.button>
-        )}
-
       {/* 题目卡片 */}
       <AnimatePresence mode="wait" custom={direction}>
         {!isExiting && (
@@ -93,8 +80,24 @@ export default function QuizCard({
               opacity: { duration: 0.2 },
               scale: { duration: 0.2 },
             }}
-            className="bg-white/95 backdrop-blur-lg rounded-3xl p-6 shadow-2xl"
+            className="bg-white/95 backdrop-blur-lg rounded-3xl p-6 shadow-2xl relative"
           >
+            {/* 返回按钮 */}
+            {canGoBack && (
+              <motion.button
+                onClick={onGoBack}
+                className="absolute left-3 top-3 w-9 h-9 bg-white/80 hover:bg-white text-stone-600 hover:text-stone-800 rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-stone-300/50 backdrop-blur-sm transition-all"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                whileTap={{ scale: 0.85 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </motion.button>
+            )}
+
             {/* 题目图标 */}
             <div className="text-center mb-6">
               <motion.div
