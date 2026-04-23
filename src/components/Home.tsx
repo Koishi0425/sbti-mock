@@ -46,7 +46,7 @@ export default function Home({ onStart }: HomeProps) {
       >
         {/* 标题 */}
         <motion.h1
-          className="text-2xl sm:text-3xl font-light text-white/60 mb-2 tracking-widest uppercase"
+          className="text-2xl sm:text-3xl font-light text-white/60 mb-6 tracking-widest uppercase"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -56,17 +56,17 @@ export default function Home({ onStart }: HomeProps) {
 
         {/* 主标题 */}
         <motion.p
-          className="text-2xl sm:text-3xl md:text-4xl font-black font-serif-sc text-white mb-8 sm:mb-10 leading-snug"
+          className="text-2xl sm:text-3xl md:text-4xl font-black font-serif-sc text-white mb-10 sm:mb-12 leading-snug"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          🌈 推荐一首王菲的歌 ✨
+          ✨ 推荐一首王菲的歌 ✨
         </motion.p>
 
         {/* 王菲照片 */}
         <motion.div
-          className="mb-6 sm:mb-8 flex justify-center"
+          className="mb-10 sm:mb-12 flex justify-center"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
@@ -74,7 +74,7 @@ export default function Home({ onStart }: HomeProps) {
           <img
             src={homeImage}
             alt="王菲"
-            className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-cover rounded-full shadow-2xl border-4 border-stone-300/40"
+            className="w-72 h-72 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] object-cover rounded-full shadow-2xl border-4 border-stone-300/40"
           />
         </motion.div>
 
@@ -82,7 +82,7 @@ export default function Home({ onStart }: HomeProps) {
         {/* 开始按钮 */}
         <motion.button
           onClick={onStart}
-          className="relative px-8 sm:px-12 py-4 sm:py-5 text-stone-800 font-bold text-lg sm:text-xl rounded-2xl"
+          className="relative px-8 sm:px-12 py-4 sm:py-5 text-stone-800 font-bold text-lg sm:text-xl rounded-2xl mt-10 sm:mt-12"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.05, type: 'spring' }}
@@ -109,12 +109,20 @@ export default function Home({ onStart }: HomeProps) {
 
         {/* 作者 */}
         <motion.p
-          className="mt-6 sm:mt-8 text-white/40 text-xs sm:text-sm"
+          className="mt-10 sm:mt-12 text-white/40 text-xs sm:text-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          Mieule&格拉摩根
+          <a
+            href="https://www.xiaohongshu.com/user/profile/65cb1e65000000000901690e"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white/60 transition-colors"
+          >
+            Mieule
+          </a>
+          &格拉摩根
         </motion.p>
       </motion.div>
     </div>

@@ -69,6 +69,20 @@ function App() {
     setResult(null);
   }, []);
 
+  // 返回上一题
+  const handleGoBack = useCallback(() => {
+    if (currentQuestionIndex > 0) {
+      setIsExiting(true);
+      setDirection(-1);
+
+      // 等待退出动画完成
+      setTimeout(() => {
+        setCurrentQuestionIndex((prev) => prev - 1);
+        setIsExiting(false);
+      }, 300);
+    }
+  }, [currentQuestionIndex]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-700 via-stone-600 to-stone-500">
       <AnimatePresence mode="wait">
@@ -81,8 +95,10 @@ function App() {
             questionIndex={currentQuestionIndex}
             totalQuestions={questions.length}
             onAnswer={handleAnswer}
+            onGoBack={handleGoBack}
             isExiting={isExiting}
             direction={direction}
+            canGoBack={currentQuestionIndex > 0}
           />
         )}
 

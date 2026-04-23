@@ -7,8 +7,10 @@ interface QuizCardProps {
   questionIndex: number;
   totalQuestions: number;
   onAnswer: (optionId: string) => void;
+  onGoBack: () => void;
   isExiting: boolean;
   direction: number;
+  canGoBack: boolean;
 }
 
 export default function QuizCard({
@@ -16,8 +18,10 @@ export default function QuizCard({
   questionIndex,
   totalQuestions,
   onAnswer,
+  onGoBack,
   isExiting,
   direction,
+  canGoBack,
 }: QuizCardProps) {
   // 滑入滑出动画变体
   const slideVariants = {
@@ -39,8 +43,8 @@ export default function QuizCard({
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start px-4 py-8">
-      <div className="w-full max-w-md mx-auto">
+    <div className="min-h-screen flex flex-col items-center justify-start px-4 py-8 relative">
+      <div className="w-full max-w-md mx-auto relative">
         {/* 进度条 */}
         <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
@@ -60,6 +64,19 @@ export default function QuizCard({
             />
           </div>
         </div>
+
+        {/* 返回按钮 */}
+        {canGoBack && (
+          <motion.button
+            onClick={onGoBack}
+            className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white/80 hover:text-white text-sm font-medium rounded-xl transition-all backdrop-blur-sm"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            ← 返回
+          </motion.button>
+        )}
 
       {/* 题目卡片 */}
       <AnimatePresence mode="wait" custom={direction}>
